@@ -6,8 +6,11 @@ const News = require('../model/news');
 const axios = require('axios');
 const extractor = require('unfluff');
 
-router.get('/', (req, res) => {
-    res.render('home.ejs', {query: req.session.username});
+router.get('/', async (req, res) => {
+    let news = await News.find({isFakeNews: true});
+    
+
+    res.render('home.ejs', {query: req.session.username, news: news.length});
 });
 
 router.post('/scrap', async (req, res) => {

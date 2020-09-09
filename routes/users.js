@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../model/user');
 const News = require('../model/news');
+const generatePassword = require('generate-password');
+const mailerNewPassword = require('../helper/mailerPassword');
 
 router.post('/create', async (req, res) => {
     const { email, password} = req.body;
@@ -62,6 +64,45 @@ router.get('/history', async (req, res) => {
     user = user.toObject();
     res.json({user, news})
     
+})
+
+router.get('/clean', async (req, res) => {
+    try {
+        const deletedNews = await News.deleteMany({verifiedBy: req.session.username})
+        res.json({success: 'ok'})
+    } catch (error) {
+        res.json({error})
+    }
+})
+
+router.post('/recover',  async (req, res) => {
+    const {email} = req.body;
+    const newPassword = generatePassword.generate({
+      length: 11,
+      uppercase: false,
+      numbers: true
+    })
+
+    let userName = email;
+  
+    try {
+      const updateUser = {userPassword: newPassword};
+      const user = await User.findOneAndUpdate({ userName }, updateUser, {
+        new: true
+      });
+      if (user != null) {
+        mailerNewPassword.sendEmail(email, newPassword);
+        res.send('Ok');
+      } else {
+        throw new Error ('Error message');
+      }
+    } catch (error) {
+      res.send(error);
+    }
+})
+
+router.get('/recovery', (req, res) => {
+    res.render('recovery.ejs');
 })
 
 module.exports = router;

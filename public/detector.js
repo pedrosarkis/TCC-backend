@@ -125,6 +125,10 @@ const viewGroup = async () => {
 
 const showResult = (resultedSearch) => {
     document.getElementById('result').value = resultedSearch ? 'A notícia provavelmente é falsa.' : 'A notícia provavelmente é verdadeira.';
+    let totalFakeNews =  document.getElementById('totalFakeNews');
+    let addResult = resultedSearch ? parseInt(totalFakeNews.innerText)+1 : totalFakeNews.innerText;
+   
+    totalFakeNews.innerHTML = addResult;
 }
 const scrapUrl = async () => {
     
