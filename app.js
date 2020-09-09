@@ -31,3 +31,4 @@ app.use('/group', groupRoute);
 database.connectDabatase();
 
 const port = process.env.PORT || 3000
+app.listen(port);
