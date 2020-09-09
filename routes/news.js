@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const News = require('../model/news');
+
 const axios = require('axios');
 const extractor = require('unfluff');
 
@@ -14,5 +16,16 @@ router.post('/scrap', async (req, res) => {
     const contentData = extractor(data.data);
     res.json(contentData.text);
 });
+
+router.post('/create', async (req, res) => {
+    const { isFakeNews, content , url } = req.body;
+
+    try {
+        News.create({verifiedBy: req.session.username, content, url, isFakeNews});
+        res.json({success: 'ok'})
+    } catch (error) {
+        
+    }
+})
 
 module.exports = router;

@@ -28,7 +28,7 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#exampleModal">Criar Grupo</a>
-            <a class="dropdown-item" href="" id="viewGroup">Visualizar seu grupo</a>
+            <a class="dropdown-item"  id="viewGroup">Visualizar seu grupo</a>
            
           </div>
         </li>  <% } %>
@@ -41,11 +41,16 @@
         <li class="nav-item active">
           <a class="nav-link" id="logoutAction" href="">Logout </a>
         </li> <% } %>
+
+        <% if(query != null) { %> 
+          <li class="nav-item active">
+            <a class="nav-link"  href="/user/profile">Perfil </a>
+          </li> <% } %>
         
       </ul>
     </div>
   </nav>
-
+  <% if(query != null) { %> 
     <h2 id="titleSearch">Cole seu texto abaixo para fazer a pesquisa.</h2>
     <form>
       <div class="custom-control custom-switch">
@@ -74,9 +79,13 @@
       <div class="form-group">
         <label for="passAgain">Resultado da avaliação</label>
         <input  id="result" class="form-control" type="text disabled">
-      </div>
+      </div> <% } else { %>
+        <h1>Seja bem vindo ao detector de Fake News</h1>
+        <p>Faça Login para ter acesso a todas as funcionalidades</p>
+        <% } %>
 
     <div> Nós Já detectamos mais de 100 notícias falsas.</div>
+    <div>Nossos grupos já enviaram mais de 90 e-mails avisando colegas sobre fake News Encontradas</div>
 
 
 
@@ -106,7 +115,6 @@
             <label for="participantsGroup">Participantes (Emails separado por vírgula)</label>
             <input type="text" class="form-control" id="groupParticipants" placeholder="Emails dos convidados">
           </div>
-
         </div>
       </div>
       <div class="modal-footer">

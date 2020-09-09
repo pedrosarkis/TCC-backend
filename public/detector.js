@@ -1,8 +1,14 @@
+
 const getNewsData = () => {
     if(document.getElementById('searchByUrl').checked) {
-        return document.getElementById('textFound').value;
+        return {
+            content: document.getElementById('textFound').value,
+            url: document.getElementById('urlToScrap').value,
+        }
     } else {
-        return  document.getElementById('newsData').value;
+        return {
+            content:document.getElementById('newsData').value
+        } 
     }
 }
 
@@ -14,13 +20,36 @@ const getUrlData = () => {
     }
 }
 
-const verifyNewsConfiability = () => {
+const verifyNewsConfiability =  async () => {
     let newsData = getNewsData();
     let isFakeNews = false;
-    if(newsData.charAt(0) !== 'C'){
+    if(newsData.content.charAt(0) !== 'C'){
         isFakeNews = true;
     }
+    newsData.isFakeNews = isFakeNews;
     showResult(isFakeNews);
+
+    const settings = {
+        method: 'POST',
+        body: JSON.stringify(newsData),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        } 
+      }
+
+      const response = await fetch(`/news/create`, settings);
+      if (!response.ok) throw Error(response.message);
+
+      try {
+        const data = await response.json();
+        if(data.success)
+        alert('Noticia salva no seu histórico')
+      } catch (error) {
+          
+      }
+
+
 }
 const getGroupData = () => {
     let groupName = document.getElementById('groupName').value;
@@ -86,7 +115,10 @@ const logout = async () => {
 const viewGroup = async () => {
     let response = await fetch(`/group/view`);
     let data = await response.json()
-    return data;
+    $('#exampleModal').modal();
+    document.getElementById('groupName').value = data.userHasGroup.groupName;
+    document.getElementById('groupDescription').value = data.userHasGroup.groupDescription;
+    document.getElementById('groupParticipants').value = data.userHasGroup.groupParticipants;
 }
 
 

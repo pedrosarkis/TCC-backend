@@ -5,7 +5,7 @@ const NewsSchema = new Schema({
     verifiedBy: {type: String, required: true},
     isFakeNews: {type: Boolean, required: true},
     content: {type: String, required: true},
-    URL: {type: String},
+    url: {type: String},
     createdAt: {type: Date, default: Date.now },
 });
 

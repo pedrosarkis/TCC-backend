@@ -6,6 +6,7 @@ const GroupSchema = new Schema({
     groupName: {type : String, required: true},
     groupInvited: {type: String},
     groupParticipants: {type : String, required: true},
+    groupDescription: {type: String, required: true},
     createdAt: {type: Date, default: Date.now },
     
 });

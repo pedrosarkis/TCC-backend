@@ -21,11 +21,10 @@ router.get('/view', async (req, res) => {
         allGroups = allGroups.filter(groupIterator => {
            return groupIterator.groupParticipants.includes(req.session.username);
         });
-        console.log(allGroups);
+        let userHasGroup = allGroups[0];
+        res.json({userHasGroup})
     } catch (error) {
-        
-    }
-   
+    }   
 })
 
 

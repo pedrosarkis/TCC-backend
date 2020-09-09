@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const User = require('../model/user');
+const News = require('../model/news');
 
 router.post('/create', async (req, res) => {
     const { email, password} = req.body;
@@ -18,6 +19,10 @@ router.post('/create', async (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('login.ejs');
+})
+
+router.get('/profile', (req,res) => {
+    res.render('profile.ejs');
 })
 
 router.get('/register', (req, res) => {
@@ -50,5 +55,13 @@ router.post('/login', async (req, res) => {
     res.json({success: 'Ok'})
 })
 
+router.get('/history', async (req, res) => {
+    let news = await News.find({verifiedBy: req.session.username});
+    news = news.map(item => item.toObject());
+    let user = await User.findOne({userName: req.session.username});
+    user = user.toObject();
+    res.json({user, news})
+    
+})
 
 module.exports = router;
