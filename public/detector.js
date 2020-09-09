@@ -89,7 +89,7 @@ const viewGroup = async () => {
     return data;
 }
 
-document.getElementById('viewGroup').addEventListener('click', viewGroup);
+
 
 const showResult = (resultedSearch) => {
     document.getElementById('result').value = resultedSearch ? 'A notícia provavelmente é falsa.' : 'A notícia provavelmente é verdadeira.';
@@ -133,7 +133,8 @@ document.getElementById('searchByUrl').addEventListener('change', () => {
     } 
 })
 
-document.getElementById('logoutAction').addEventListener('click', logout);
-document.getElementById('urlToScrap').addEventListener('focusout', scrapUrl);
-document.getElementById('verify').addEventListener('click', verifyNewsConfiability);
-document.getElementById('createGroup').addEventListener('click', createGroup);
+document.getElementById('viewGroup')?.addEventListener('click', viewGroup);
+document.getElementById('logoutAction')?.addEventListener('click', logout);
+document.getElementById('urlToScrap')?.addEventListener('focusout', scrapUrl);
+document.getElementById('verify')?.addEventListener('click', verifyNewsConfiability);
+document.getElementById('createGroup')?.addEventListener('click', createGroup);
