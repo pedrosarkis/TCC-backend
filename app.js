@@ -29,4 +29,5 @@ app.use('/user', userRoute);
 app.use('/news', newsRoute);
 app.use('/group', groupRoute);
 database.connectDabatase();
-app.listen(3000);
+
+const port = process.env.PORT || 3000
