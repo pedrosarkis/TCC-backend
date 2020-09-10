@@ -121,8 +121,6 @@ const viewGroup = async () => {
     document.getElementById('groupParticipants').value = data.userHasGroup.groupParticipants;
 }
 
-
-
 const showResult = (resultedSearch) => {
     document.getElementById('result').value = resultedSearch ? 'A notícia provavelmente é falsa.' : 'A notícia provavelmente é verdadeira.';
     let totalFakeNews =  document.getElementById('totalFakeNews');
