@@ -92,7 +92,7 @@ router.post('/recover',  async (req, res) => {
       });
       if (user != null) {
         mailerNewPassword.sendEmail(email, newPassword);
-        res.send('Ok');
+        res.json({success: 'ok'});
       } else {
         throw new Error ('Error message');
       }
