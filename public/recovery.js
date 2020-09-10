@@ -15,14 +15,14 @@ const recoveryPassword = async () => {
 
       try {
         const data = await response.json();
-        console.log(data);
+        if(data.success) {
+          document.getElementById('messageSent').innerText = "Uma nova senha foi enviada para o seu e-mail";
+      }
         document.getElementById('textFound').innerText = data;
       } catch (error) {
           
       }
-    if(data.success) {
-        document.getElementById('messageSent').innerText = "Uma nova senha foi enviada para o seu e-mail";
-    }
+   
 }
 
 document.getElementById('recoverPassword').addEventListener('click', recoveryPassword);
