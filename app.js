@@ -2,9 +2,7 @@ const express = require('express');
 const app = express();
 
 const cors = require('cors');
-
 const bodyparser = require('body-parser');
-
 const userRoute = require('./routes/users');
 const newsRoute = require('./routes/news');
 const groupRoute = require('./routes/group');
