@@ -37,8 +37,11 @@ const verifyNewsConfiability =  async () => {
 
       try {
         const data = await response.json();
-        if(data.success)
-        alert('Noticia salva no seu histórico')
+        if(data.success) {
+            alert('Noticia salva no seu histórico')
+            showResult(data.veredict)
+        }
+        
       } catch (error) {
           
       }
@@ -115,8 +118,9 @@ const viewGroup = async () => {
     document.getElementById('groupParticipants').value = data.userHasGroup.groupParticipants;
 }
 
-const showResult = (resultedSearch) => {
-    document.getElementById('result').value = resultedSearch ? 'A notícia provavelmente é falsa.' : 'A notícia provavelmente é verdadeira.';
+const showResult = (veredict) => {
+    debugger;
+    document.getElementById('result').value = !veredict ? 'A notícia provavelmente é falsa.' : 'A notícia provavelmente é verdadeira.';
     let totalFakeNews =  document.getElementById('totalFakeNews');
     let addResult = resultedSearch ? parseInt(totalFakeNews.innerText)+1 : totalFakeNews.innerText;
    

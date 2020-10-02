@@ -25,8 +25,9 @@ router.post('/create', async (req, res) => {
     const {content , url } = req.body;
 
     try {
-        const veredict = await pup(content);
-        News.create({verifiedBy: req.session.username, content, url, isFakeNews});
+        let veredict = await pup(content);
+        veredict = veredict === 'FAKE' ? false : true;
+        News.create({verifiedBy: req.session.username, content, url, isFakeNews: veredict});
         res.json({
             veredict,
             success: 'ok',
