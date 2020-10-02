@@ -76,7 +76,7 @@ router.get('/clean', async (req, res) => {
 })
 
 router.post('/recover',  async (req, res) => {
-    const {email} = req.body;
+    const { email } = req.body;
     const newPassword = generatePassword.generate({
       length: 11,
       uppercase: false,
