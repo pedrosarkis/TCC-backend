@@ -4,9 +4,9 @@ const router = express.Router();
 const Group = require('../model/group');
 
 router.post('/create', (req, res) => {
-    const {groupDescription, groupName, groupParticipants} = req.body;
+    const {groupDescription, groupName, groupParticipants, createdBy} = req.body;
     try {
-        Group.create({groupDescription, groupName, groupParticipants, createdBy: req.session.username.toLowerCase()});
+        Group.create({groupDescription, groupName, groupParticipants, createdBy});
         res.json({success: 'ok'})
         
     } catch (error) {
