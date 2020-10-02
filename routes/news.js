@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { pup } = require('../helper/pupFinder');
 
 const News = require('../model/news');
 
@@ -21,11 +22,16 @@ router.post('/scrap', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    const { isFakeNews, content , url } = req.body;
+    const {content , url } = req.body;
 
     try {
+        const veredict = await pup(content);
         News.create({verifiedBy: req.session.username, content, url, isFakeNews});
-        res.json({success: 'ok'})
+        res.json({
+            veredict,
+            success: 'ok',
+        })
+       
     } catch (error) {
         
     }

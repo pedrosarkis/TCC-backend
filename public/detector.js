@@ -22,12 +22,6 @@ const getUrlData = () => {
 
 const verifyNewsConfiability =  async () => {
     let newsData = getNewsData();
-    let isFakeNews = false;
-    if(newsData.content.charAt(0) !== 'C'){
-        isFakeNews = true;
-    }
-    newsData.isFakeNews = isFakeNews;
-    showResult(isFakeNews);
 
     const settings = {
         method: 'POST',

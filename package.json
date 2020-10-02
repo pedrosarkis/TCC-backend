@@ -21,6 +21,7 @@
     "mongoose": "^5.10.3",
     "nodemailer": "^6.4.11",
     "nodemon": "^2.0.4",
+    "puppeteer": "^5.3.1",
     "unfluff": "^3.2.0"
   },
   "devDependencies": {
