@@ -5,31 +5,26 @@ const User = require('../model/user');
 const News = require('../model/news');
 const generatePassword = require('generate-password');
 const mailerNewPassword = require('../helper/mailerPassword');
+require("dotenv-safe").config();
+const jwt = require('jsonwebtoken');
+
 
 router.post('/create', async (req, res) => {
     const { email, password} = req.body;
     try {
-        await  User.create({userName: email, userPassword: password});
-        req.session.username = email;
-        req.session.password = password;
-        res.json({sucess: 'Ok'});
+        const userCreated = await  User.create({userName: email, userPassword: password});
+        const token = jwt.sign({ userCreated }, process.env.SECRET, {
+            expiresIn: 86400
+        });
+        res.status(200).send({
+            auth: true,
+            token,
+        })
     } catch (error) {
         res.json({error: error});
-        
     }
 });
 
-router.get('/login', (req, res) => {
-    res.render('login.ejs');
-})
-
-router.get('/profile', (req,res) => {
-    res.render('profile.ejs');
-})
-
-router.get('/register', (req, res) => {
-    res.render('register.ejs');
-})
 
 router.post('/logout', (req, res) => {
     

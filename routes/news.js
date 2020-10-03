@@ -8,9 +8,7 @@ const axios = require('axios');
 const extractor = require('unfluff');
 
 router.get('/', async (req, res) => {
-    let news = await News.find({isFakeNews: true});
-    
-
+    let news = await News.find( { isFakeNews: true });
     res.render('home.ejs', {query: req.session.username, news: news.length});
 });
 
