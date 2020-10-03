@@ -16,6 +16,7 @@ router.post('/create', async (req, res) => {
         const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
             expiresIn: 86400
         });
+        
         res.status(200).send({
             auth: true,
             token,
