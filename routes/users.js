@@ -13,7 +13,7 @@ router.post('/create', async (req, res) => {
     const { email, password} = req.body;
     try {
         const userCreated = await  User.create({userName: email, userPassword: password});
-        const token = jwt.sign({ userCreated }, process.env.SECRET, {
+        const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
             expiresIn: 86400
         });
         res.status(200).send({
@@ -25,9 +25,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-
 router.post('/logout', (req, res) => {
-    
     try {
         req.session.destroy();
         res.json({success: ok});
@@ -47,21 +45,24 @@ router.post('/login', async (req, res) => {
         req.session.username = userName;
         req.session.password = userPassword;
     } else {
-        res.json({error: "A senha está incorreta"});
+        res.json({
+            error: "A senha está incorreta"
+        });
     }
     res.json({success: 'Ok'})
 })
 
 router.get('/history', async (req, res) => {
-    let news = await News.find({verifiedBy: req.session.username});
+    const params = req.params;
+    let news = await News.find({verifiedBy: params.username});
     news = news.map(item => item.toObject());
     let user = await User.findOne({userName: req.session.username});
     user = user.toObject();
     res.json({user, news})
-    
 })
 
-router.get('/clean', async (req, res) => {
+router.delete('/clean', async (req, res) => {
+    
     try {
         const deletedNews = await News.deleteMany({verifiedBy: req.session.username})
         res.json({success: 'ok'})
