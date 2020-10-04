@@ -24,7 +24,7 @@ const sendEmail = async  (destinatario, newPassword) => {
       const emailSent = await transporter.sendMail(emailcorpo);
       return emailSent;
     } catch (error) {
-      
+      console.log(error);
     }
 };
 
