@@ -15,11 +15,12 @@ router.post('/create', (req, res) => {
 })
 
 router.get('/view', async (req, res) => {
+    const userParam =  req.params;
     try {
         const group = await Group.find({});
         let allGroups = group.map(item => item.toObject())
         allGroups = allGroups.filter(groupIterator => {
-           return groupIterator.groupParticipants.includes(req.session.username);
+           return groupIterator.groupParticipants.includes(userParam);
         });
         let userHasGroup = allGroups[0];
         res.json({userHasGroup})
