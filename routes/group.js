@@ -2,11 +2,14 @@ const express = require('express');
 
 const router = express.Router();
 const Group = require('../model/group');
+const {inviteParticipants} = require('../components/groupComponent');
 
 router.post('/create', (req, res) => {
     const {groupDescription, groupName, groupParticipants, createdBy} = req.body;
     try {
-        Group.create({groupDescription, groupName, groupParticipants, createdBy});
+        await Group.create({groupDescription, groupName, groupParticipants, createdBy});
+        await inviteParticipants(groupParticipants);
+        
         res.json({success: 'ok'})
         
     } catch (error) {

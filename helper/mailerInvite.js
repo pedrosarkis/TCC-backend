@@ -2,7 +2,7 @@
 const nodemailer = require('nodemailer');
 
 const sendInvite =  async (participants) => {
-    
+
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port : 587,
@@ -21,4 +21,8 @@ const sendInvite =  async (participants) => {
     
         }
 
+}
+
+module.exports = {
+    sendInvite
 }
