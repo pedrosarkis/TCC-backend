@@ -8,7 +8,7 @@ const sendEmail = async  (destinatario, newPassword) => {
     secure : false,
   auth : {
     user : 'ahgorabookclub@gmail.com',
-    pass : 'ssffdd66'
+    pass : process.env.PASSWORD
   }
 });
 
