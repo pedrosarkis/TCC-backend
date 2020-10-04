@@ -17,12 +17,11 @@ router.post('/scrap', authChecker, async (req, res, next) => {
     const { url } = req.body;
     const data = await axios.get(url);
     const contentData = extractor(data.data);
-    res.json(contentData.text);
+    res.send(contentData.text);
 });
 
 router.post('/create', async (req, res) => {
     const {content , url } = req.body;
-
     try {
         let veredict = await pup(content);
         veredict = veredict === 'FAKE' ? false : true;

@@ -8,7 +8,7 @@ const pup = async (content) => {
     await page.click('#send'); 
     const veredict = await new Promise(resolve => {
         page.on('response', async (response) => {
-            if (response.url() === "https://nilc-fakenews.herokuapp.com/ajax/check_web/"){
+            if (response.url() === "https://nilc-fakenews.herokuapp.com/ajax/check_web/") {
                 const result =  await response.json();
                 resolve(result.result);
             } 
