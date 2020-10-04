@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const router = express.Router();
 const { pup } = require('../helper/pupFinder');
@@ -9,8 +10,8 @@ const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
 router.get('/', async (req, res) => {
-    let news = await News.find( { isFakeNews: true });
-    res.render('home.ejs', {query: req.session.username, news: news.length});
+    const news = await News.find({ isFakeNews: true });
+    res.render('home.ejs', { query: req.session.username, news: news.length });
 });
 
 router.post('/scrap', authChecker, async (req, res, next) => {
@@ -21,19 +22,19 @@ router.post('/scrap', authChecker, async (req, res, next) => {
 });
 
 router.post('/create', async (req, res) => {
-    const {content , url } = req.body;
+    const { content , url } = req.body;
     try {
         let veredict = await pup(content);
         veredict = veredict === 'FAKE' ? false : true;
-        News.create({verifiedBy: req.session.username, content, url, isFakeNews: veredict});
+        News.create({ verifiedBy: req.session.username, content, url, isFakeNews: veredict });
         res.json({
             veredict,
             success: 'ok',
-        })
-       
+        });
+
     } catch (error) {
-        
+
     }
-})
+});
 
 module.exports = router;
