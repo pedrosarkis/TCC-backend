@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-const pup = async (content) => {
+const pup = async content => {
     const browser = await puppeteer.launch({headless: true});
     const page = await browser.newPage();
     await page.goto('https://nilc-fakenews.herokuapp.com/', {waitUntil: "domcontentloaded"});
