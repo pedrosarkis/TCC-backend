@@ -9,7 +9,7 @@ const axios = require('axios');
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res) => {   
     const news = await News.find({ isFakeNews: true });
     res.render('home.ejs', { query: req.session.username, news: news.length });
 });
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 router.post('/scrap', authChecker, async (req, res, next) => {
     const { url } = req.body;
     const data = await axios.get(url);
-    const contentData = extractor(data.data);
+    const contentData = extractor(data.data, 'pt');
     res.send(contentData.text);
 });
 
