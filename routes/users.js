@@ -8,6 +8,7 @@ const generatePassword = require('generate-password');
 const mailerNewPassword = require('../helper/mailerPassword');
 require('dotenv-safe').config();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 
 router.post('/create', async (req, res) => {
@@ -42,7 +43,7 @@ router.post('/login', async (req, res) => {
     if (!user) {
         res.json({ error: 'Usuário não encontrado' });
     }
-    const isPasswordRight = user._doc.userPassword === userPassword;
+    const isPasswordRight =  await bcrypt.compare(userPassword, user._doc.userPassword);
     if (isPasswordRight) {
         req.session.username = userName;
         req.session.password = userPassword;
