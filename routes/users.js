@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 router.post('/create', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const userCreated = await  User.create({ userName: email, userPassword: password });
+        const userCreated = await User.create({ userName: email, userPassword: password });
         const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
             expiresIn: 86400,
         });
@@ -22,6 +22,7 @@ router.post('/create', async (req, res) => {
             token,
         });
     } catch (error) {
+        console.log(error);
         res.json({ error: error });
     }
 });
