@@ -8,13 +8,8 @@ const bodyparser = require('body-parser');
 const userRoute = require('./routes/users');
 const newsRoute = require('./routes/news');
 const groupRoute = require('./routes/group');
-const session = require('express-session');
 const database = require('./database/connection');
-const path = require('path');
 
-app.set('views', './view');
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
