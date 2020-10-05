@@ -44,15 +44,8 @@ router.post('/login', async (req, res) => {
         res.json({ error: 'Usuário não encontrado' });
     }
     const isPasswordRight =  await bcrypt.compare(userPassword, user._doc.userPassword);
-    if (isPasswordRight) {
-        req.session.username = userName;
-        req.session.password = userPassword;
-    } else {
-        res.json({
-            error: 'A senha está incorreta',
-        });
-    }
-    res.json({ success: 'Ok' });
+    if(isPasswordRight) res.json({ success: true });
+    
 });
 
 router.get('/history', async (req, res) => {
