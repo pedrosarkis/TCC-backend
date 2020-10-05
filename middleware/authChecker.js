@@ -14,7 +14,7 @@ const verifyJWT = (req, res, next) => {
         if (err) {
             return res.status(500).json({
                 auth:false,
-                message: 'Token inválido',
+                message: 'Invalid Token',
             });
         }
         req.userId = decoded.id;
