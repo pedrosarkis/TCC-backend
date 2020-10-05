@@ -10,7 +10,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', async function (next) {
     let user = this;
-    if(!user.isModified('password')) return next();
+    if(!user.isModified('userPassword')) return next();
     user.userPassword = await bcrypt.hash(user.userPassword, 10);
     user.userName = user.email.toLowerCase();
     return next();
