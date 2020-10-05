@@ -23,14 +23,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(session({
-    secret: 'pedroGod',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-}));
-
-
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 
