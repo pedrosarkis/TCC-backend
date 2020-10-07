@@ -7,6 +7,7 @@ const News = require('../model/news');
 const generatePassword = require('generate-password');
 const mailerNewPassword = require('../helper/mailerPassword');
 require('dotenv-safe').config();
+const authChecker = require('../middleware/authChecker');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -40,14 +41,15 @@ router.post('/logout', (req, res) => {
 router.post('/login', async (req, res) => {
     const { userName, userPassword } = req.body;
 
-    const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
-        expiresIn: 86400,
-    });
-
+    
     const user = await User.findOne({ userName });
     if (!user) {
         res.json({ error: 'Usuário não encontrado' });
     }
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+        expiresIn: 86400,
+    });
+
     const isPasswordRight =  await bcrypt.compare(userPassword, user._doc.userPassword);
     if(isPasswordRight) res.json({
          success: true,
@@ -65,10 +67,13 @@ router.get('/history', async (req, res) => {
     res.json({ user, news });
 });
 
-router.delete('/clean', async (req, res) => {
+router.delete('/clean', authChecker, async (req, res) => {
+    const { userName } = req.body;
+    const token = req.header.authorization;
 
+    const decoded = jwt.verify(token, process.env.SECRET);
     try {
-        await News.deleteMany({ verifiedBy: req.session.username });
+        await News.deleteMany({ verifiedBy: userName });
         res.json({ success: true });
     } catch (error) {
         res.json({
