@@ -17,11 +17,10 @@ const sendEmail = async  (destinatario, newPassword) => {
       to: destinatario,
       subject: 'Nova senha',
       text: `Sua nova senha é ${newPassword}`
-
     }
     
     try {
-      const emailSent = await transporter.sendMail(emailcorpo);
+      const emailSent =  await transporter.sendMail(emailcorpo);
       return emailSent;
     } catch (error) {
       console.log(error);

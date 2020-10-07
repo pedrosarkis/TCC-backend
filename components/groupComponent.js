@@ -2,24 +2,24 @@
 const users = require('../model/user');
 const { sendInvite } = require('../helper/mailerInvite');
 
-const inviteParticipants = async participants => {
-    const users = [];
-    const allParticipantsToInvite = participants.split(',');
+const inviteParticipants = async (participants, groupId) => {
+    const usersToInvite = [];
+    let activeUsers = [];
+    const allParticipantsToInvite = participants.split(',').map(mail => mail.trim());
     try {
-        let activeUsers = await users.find({ userName: { $in: allParticipantsToInvite } });
-        activeUsers = activeUsers.toObject();
-    } catch (error) {
+        activeUsers = await users.find({ userName: { $in: allParticipantsToInvite } });
+        activeUsers = activeUsers.map(obj => obj._doc.userName);
+     } catch (error) {
         console.log(error);
-    }
-    const notUsers = allParticipantsToInvite.filter(email => !activeUsers.includes(email)); // acho que nao precisa disso, mas ta aqui anyway
-    allParticipantsToInvite.forEach(email => {
-        const isActiveUser = activeUsers.includes(email);
-        users.push({
-            email,
-            isActiveUser,
-        });
-    });
-    sendInvite(users);
+    }   
+    // allParticipantsToInvite.forEach(email => {
+    //     const isActiveUser = activeUsers.includes(email);
+    //     usersToInvite.push({
+    //         email,
+    //         isActiveUser,
+    //     });
+    // });
+    sendInvite(allParticipantsToInvite, groupId);
     //continuar
 };
 

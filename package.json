@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "run": "babel-node ./src/app.js"
+    "run": "babel-node ./src/app.js",
+    "eslint": "./node_modules/.bin/eslint"
   },
   "author": "",
   "license": "ISC",
