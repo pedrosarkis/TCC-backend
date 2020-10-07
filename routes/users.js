@@ -39,12 +39,20 @@ router.post('/logout', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { userName, userPassword } = req.body;
+
+    const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
+        expiresIn: 86400,
+    });
+
     const user = await User.findOne({ userName });
     if (!user) {
         res.json({ error: 'Usuário não encontrado' });
     }
     const isPasswordRight =  await bcrypt.compare(userPassword, user._doc.userPassword);
-    if(isPasswordRight) res.json({ success: true });
+    if(isPasswordRight) res.json({
+         success: true,
+         token,
+    });
     
 });
 
@@ -61,9 +69,12 @@ router.delete('/clean', async (req, res) => {
 
     try {
         await News.deleteMany({ verifiedBy: req.session.username });
-        res.json({ success: 'ok' });
+        res.json({ success: true });
     } catch (error) {
-        res.json({ error });
+        res.json({
+            success: false,
+            error,
+          });
     }
 });
 
@@ -84,17 +95,16 @@ router.post('/recover',  async (req, res) => {
         });
         if (user !== null) {
             mailerNewPassword.sendEmail(email, newPassword);
-            res.json({ success: 'ok' });
+            res.json({ success: true});
         } else {
-            throw new Error('Error message');
+            res.json({
+                success: false,
+                error,
+            })
         }
     } catch (error) {
         res.send(error);
     }
-});
-
-router.get('/recovery', (req, res) => {
-    res.render('recovery.ejs');
 });
 
 module.exports = router;

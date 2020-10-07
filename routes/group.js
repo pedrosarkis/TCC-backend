@@ -10,8 +10,7 @@ router.post('/create', async (req, res) => {
     try {
         await Group.create({ groupDescription, groupName, groupParticipants, createdBy });
         await inviteParticipants(groupParticipants);
-
-        res.json({ success: 'ok' });
+        res.json({ success: true });
 
     } catch (error) {
         res.json({ error });
@@ -31,6 +30,5 @@ router.get('/view', async (req, res) => {
     } catch (error) {
     }
 });
-
 
 module.exports = router;

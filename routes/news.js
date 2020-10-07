@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
         News.create({ verifiedBy: req.session.username, content, url, isFakeNews: veredict });
         res.json({
             veredict,
-            success: 'ok',
+            success: true,
         });
 
     } catch (error) {
