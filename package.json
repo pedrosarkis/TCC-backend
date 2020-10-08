@@ -9,6 +9,17 @@
     "run": "babel-node ./src/app.js",
     "eslint": "./node_modules/.bin/eslint"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix --max-warnings=0",
+      "git add"
+    ]
+  },   
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -25,6 +36,7 @@
     "generate-password": "^1.5.1",
     "jsonwebtoken": "^8.5.1",
     "lint": "^0.7.0",
+    "lint-staged": "^10.4.0",
     "mongoose": "^5.10.3",
     "nodemailer": "^6.4.11",
     "nodemon": "^2.0.4",
