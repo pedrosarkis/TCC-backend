@@ -6,20 +6,32 @@ const Group = require('../model/group');
 const authChecker = require('../middleware/authChecker');
 const { inviteParticipants } = require('../components/groupComponent');
 
-router.post('/create', authChecker, async (req, res) => {
-    const { groupDescription, groupName, groupParticipants, createdBy} = req.body;
+router.post('/create', async (req, res) => {
+    const { groupDescription, groupName, groupParticipantsInvited, createdBy} = req.body;
     try {
-        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipants, createdBy });
-        await inviteParticipants(groupParticipants, groupCreated.id);
+        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy });
+       // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
+        res.status(200).json({
+            success: true
+        })
         
     } catch (error) {
-        res.json({ error });
+        res.status(500).json({ error });
     }
 });
 
-router.get('/accept'), async (req, res) => {
-    const params = req.params;
+router.get('/group/pending'), async (req, res) => {
+    const groupId = req.params.groupId;
+    const token = req.header.authorization;
+
+    const group = await Group.findById({id: groupId});
+
 }
+
+router.delete('/deleteGroups', async (req, res) => {
+    await Group.deleteMany({});
+    
+})
 
 router.get('/view', authChecker, async (req, res) => {
     const userParam =  req.params;
