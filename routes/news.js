@@ -9,11 +9,6 @@ const axios = require('axios');
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
-router.get('/', async (req, res) => {   
-    const news = await News.find({ isFakeNews: true });
-    res.render('home.ejs', { query: req.session.username, news: news.length });
-});
-
 router.post('/scrap', authChecker, async (req, res, next) => {
     const { url } = req.body;
     const data = await axios.get(url);
@@ -21,19 +16,22 @@ router.post('/scrap', authChecker, async (req, res, next) => {
     res.send(contentData.text);
 });
 
-router.post('/create', async (req, res) => {
-    const { content , url } = req.body;
+router.post('/create', authChecker, async (req, res) => {
+    const { content , url, verifiedBy } = req.body;
     try {
         let veredict = await pup(content);
         veredict = veredict === 'FAKE' ? false : true;
-        News.create({ verifiedBy: req.session.username, content, url, isFakeNews: veredict });
+        News.create({ verifiedBy, content, url, isFakeNews: !veredict });
         res.json({
             veredict,
             success: true,
         });
 
     } catch (error) {
-
+        res.json({
+            success: false,
+            error,
+        })
     }
 });
 

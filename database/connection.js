@@ -1,8 +1,9 @@
 'use strict';
 const mongoose = require('mongoose');
+const password = process.env.PASSWORD;
 
 const connectDabatase = () => {
-    const url = 'mongodb+srv://sarkis:ssffdd66@cluster0.5xxb0.mongodb.net/<dbname>?retryWrites=true&w=majority';
+    const url = `mongodb+srv://sarkis:${password}@cluster0.5xxb0.mongodb.net/<dbname>?retryWrites=true&w=majority`;
 
     const options = { reconnectTries: Number.MAX_VALUE,reconnectInterval: 500, useNewUrlParser: true };
 

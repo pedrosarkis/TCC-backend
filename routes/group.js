@@ -11,8 +11,7 @@ router.post('/create', authChecker, async (req, res) => {
     try {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipants, createdBy });
         await inviteParticipants(groupParticipants, groupCreated.id);
-       
-
+        
     } catch (error) {
         res.json({ error });
     }

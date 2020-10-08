@@ -29,18 +29,8 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.post('/logout', (req, res) => {
-    try {
-        req.session.destroy();
-        res.json({ success: ok });
-    } catch (error) {
-
-    }
-});
-
 router.post('/login', async (req, res) => {
     const { userName, userPassword } = req.body;
-
     
     const user = await User.findOne({ userName });
     if (!user) {
@@ -50,28 +40,31 @@ router.post('/login', async (req, res) => {
         expiresIn: 86400,
     });
 
-    const isPasswordRight =  await bcrypt.compare(userPassword, user._doc.userPassword);
-    if(isPasswordRight) res.json({
-         success: true,
-         token,
-    });
-    
+    const isPasswordRight = await bcrypt.compare(userPassword, user._doc.userPassword);
+    if(isPasswordRight) {
+        res.json({
+            success: true,
+            token,
+       });
+    } else {
+        res.json({
+            success: false,
+            error: 'A senha está incorreta',
+       });
+    }
 });
 
-router.get('/history', async (req, res) => {
+router.get('/history', authChecker, async (req, res) => {
     const params = req.params;
     let news = await News.find({ verifiedBy: params.username });
     news = news.map(item => item.toObject());
-    let user = await User.findOne({ userName: req.session.username });
-    user = user.toObject();
-    res.json({ user, news });
+    res.json({ news });
 });
 
 router.delete('/clean', authChecker, async (req, res) => {
     const { userName } = req.body;
     const token = req.header.authorization;
-
-    const decoded = jwt.verify(token, process.env.SECRET);
+    
     try {
         await News.deleteMany({ verifiedBy: userName });
         res.json({ success: true });
@@ -83,32 +76,34 @@ router.delete('/clean', authChecker, async (req, res) => {
     }
 });
 
-router.post('/recover',  async (req, res) => {
+router.post('/recover', async (req, res) => {
     const { email } = req.body;
-    const newPassword = generatePassword.generate({
+    const passwordParams = {
         length: 11,
         uppercase: false,
-        numbers: true,
-    });
+        numbers: true
+    }
+    const newPassword = generatePassword.generate(passwordParams);
+    const newPasswordHash = await bcrypt.hash(newPassword, 10); 
 
     const userName = email;
 
     try {
-        const updateUser = { userPassword: newPassword };
+        const updateUser = { userPassword: newPasswordHash };
         const user = await User.findOneAndUpdate({ userName }, updateUser, {
             new: true,
         });
         if (user !== null) {
             mailerNewPassword.sendEmail(email, newPassword);
-            res.json({ success: true});
+            res.status(200).json({ success: true});
         } else {
-            res.json({
+            res.status(500).json({
                 success: false,
                 error,
             })
         }
     } catch (error) {
-        res.send(error);
+        res.status(500).send(error);
     }
 });
 
