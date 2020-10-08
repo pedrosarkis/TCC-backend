@@ -19,7 +19,6 @@ router.post('/create', authChecker, async (req, res) => {
 
 router.get('/accept'), async (req, res) => {
     const params = req.params;
-
 }
 
 router.get('/view', authChecker, async (req, res) => {
