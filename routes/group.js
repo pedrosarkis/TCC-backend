@@ -30,7 +30,6 @@ router.get('/group/pending'), async (req, res) => {
 
 router.delete('/deleteGroups', async (req, res) => {
     await Group.deleteMany({});
-    
 })
 
 router.get('/view', authChecker, async (req, res) => {

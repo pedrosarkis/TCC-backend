@@ -12,10 +12,13 @@ const verifyJWT = (req, res, next) => {
 
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
         if (err) {
+            // return res.status(500).json({
+            //     auth:false,
+            //     message: 'Invalid Token',
+            // });
             return res.status(500).json({
-                auth:false,
-                message: 'Invalid Token',
-            });
+                err
+            })
         }
         req.userId = decoded.id;
         next();
