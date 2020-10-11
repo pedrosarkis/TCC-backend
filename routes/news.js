@@ -6,12 +6,21 @@ const { pup } = require('../helper/pupFinder');
 const News = require('../model/news');
 
 const axios = require('axios');
+const apiClient = axios.create();
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
 router.post('/scrap', async (req, res, next) => {
+    apiClient.interceptors.request.use(config => {
+        config.headers['Content-Type'] = 'application/json; charset=UTF-8';
+        return config;
+    }, function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    });
+
     const { url } = req.body;
-    const data = await axios.get(url);
+    const data = await apiClient.get(url);
     const contentData = extractor(data.data, 'pt');
     res.status(200).json({
         content: contentData.text,
