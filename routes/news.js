@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const express = require('express');
 const router = express.Router();
 const { pup } = require('../helper/pupFinder');
@@ -9,11 +9,13 @@ const axios = require('axios');
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
-router.post('/scrap', authChecker, async (req, res, next) => {
+router.post('/scrap', async (req, res, next) => {
     const { url } = req.body;
     const data = await axios.get(url);
     const contentData = extractor(data.data, 'pt');
-    res.send(contentData.text);
+    res.status(200).json({
+        content: contentData,
+    });
 });
 
 router.post('/create', authChecker, async (req, res) => {
@@ -31,7 +33,7 @@ router.post('/create', authChecker, async (req, res) => {
         res.json({
             success: false,
             error,
-        })
+        });
     }
 });
 
