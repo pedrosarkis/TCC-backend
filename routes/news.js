@@ -14,7 +14,7 @@ router.post('/scrap', async (req, res, next) => {
     const data = await axios.get(url);
     const contentData = extractor(data.data, 'pt');
     res.status(200).json({
-        content: contentData,
+        content: contentData.text,
     });
 });
 
