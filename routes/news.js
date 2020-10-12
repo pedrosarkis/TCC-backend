@@ -20,19 +20,24 @@ router.post('/scrap', cors(), async (req, res, next) => {
         }
         return response;
     }, function (error) {
-
+        console.log('rejeitou a promise');
         return Promise.reject(error);
     });
 
     const { url } = req.body;
-    const data = await apiClient.get(url, {
-        responseEncoding: 'latin1',
+    try {
+        const data = await apiClient.get(url, {
+            responseEncoding: 'latin1',
+        });
 
-    });
-    const contentData = extractor(data.data, 'pt');
-    res.status(200).json({
-        content: contentData.text,
-    });
+        const contentData = extractor(data.data, 'pt');
+        res.status(200).json({
+            content: contentData.text,
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 router.post('/create', authChecker, async (req, res) => {
