@@ -25,6 +25,7 @@ router.post('/scrap', cors(), async (req, res, next) => {
     });
 
     const { url } = req.body;
+    console.log(url);
     try {
         const data = await apiClient.get(url, {
             responseEncoding: 'latin1',
