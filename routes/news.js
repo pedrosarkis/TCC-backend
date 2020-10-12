@@ -16,8 +16,6 @@ const iconv = new Iconv('UTF-8', 'ISO-8859-1');
 router.post('/scrap', cors(), async (req, res, next) => {
     const apiClient = axios.create();
     apiClient.interceptors.response.use(function (response) {
-        //console.log(response.data);
-        console.log(response.headers);
         if (response.headers['content-type'].includes('utf') || response.headers['content-type'].includes('UTF')) {
             response.data = iconv.convert(response.data);
         }

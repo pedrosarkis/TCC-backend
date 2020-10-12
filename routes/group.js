@@ -25,23 +25,38 @@ router.get('/group/pending'), async (req, res) => {
     const token = req.header.authorization;
 
     const group = await Group.findById({id: groupId});
-
 }
 
 router.delete('/deleteGroups', async (req, res) => {
     await Group.deleteMany({});
 })
 
-router.get('/view', authChecker, async (req, res) => {
-    const userParam =  req.params;
+router.post('accept', async (req, res) => {
+    const {groupId, user} = req.body;
+    
+    const group = await Group.update({
+        id: groupId},
+         {$pull:{groupParticipantsPending: user}},
+          {$push: {groupParticipantsAccepted: user}});
+
+    console.log('Continuar essa bosta dps');
+});
+
+
+router.get('/view', async (req, res) => {
+    const { user } =  req.query;
     try {
-        const group = await Group.find({});
-        let allGroups = group.map(item => item.toObject());
-        allGroups = allGroups.filter(groupIterator => {
-            return groupIterator.groupParticipants.includes(userParam);
-        });
-        const userHasGroup = allGroups[0];
-        res.json({ userHasGroup });
+        const group = await Group.find({groupParticipantsAccepted: user});
+       if(!group) {
+           return res.json({
+               success: false,
+               message: 'Usuário não está em nenhum grupo'
+           })
+       }
+        res.json({
+            success: true,
+            group: group._doc,
+         });
     } catch (error) {
     }
 });
