@@ -7,15 +7,16 @@ const cors = require('cors');
 const News = require('../model/news');
 
 const axios = require('axios');
-const apiClient = axios.create();
+
 const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
+const iconv = new Iconv('UTF-8', 'ISO-8859-1');
 
 router.post('/scrap', cors(), async (req, res, next) => {
-    const iconv = new Iconv('UTF-8', 'ISO-8859-1');
+    const apiClient = axios.create();
     apiClient.interceptors.response.use(function (response) {
-        console.log(response.data);
+        //console.log(response.data);
         console.log(response.headers);
         if (response.headers['content-type'].includes('utf') || response.headers['content-type'].includes('UTF')) {
             response.data = iconv.convert(response.data);
