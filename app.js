@@ -18,7 +18,7 @@ app.use(cors());
 //     app.use(cors());
 //     next();
 // });
-
+app.options('/news/scrap', cors());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(cookieParser());

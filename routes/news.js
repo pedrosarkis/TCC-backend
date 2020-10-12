@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { pup } = require('../helper/pupFinder');
+const cors = require('cors');
 
 const News = require('../model/news');
 
@@ -11,7 +12,7 @@ const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
-router.post('/scrap', async (req, res, next) => {
+router.post('/scrap', cors(), async (req, res, next) => {
     const iconv = new Iconv('UTF-8', 'ISO-8859-1');
     apiClient.interceptors.response.use(function (response) {
         if (response.headers['content-type'].includes('utf') || response.headers['content-type'].includes('UTF')) {
