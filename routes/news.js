@@ -15,6 +15,7 @@ const authChecker = require('../middleware/authChecker');
 router.post('/scrap', cors(), async (req, res, next) => {
     const iconv = new Iconv('UTF-8', 'ISO-8859-1');
     apiClient.interceptors.response.use(function (response) {
+        console.log(response);
         if (response.headers['content-type'].includes('utf') || response.headers['content-type'].includes('UTF')) {
             response.data = iconv.convert(response.data);
         }
