@@ -19,7 +19,7 @@
       "eslint --fix --max-warnings=0",
       "git add"
     ]
-  },   
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -34,6 +34,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "generate-password": "^1.5.1",
+    "iconv": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "lint": "^0.7.0",
     "lint-staged": "^10.4.0",

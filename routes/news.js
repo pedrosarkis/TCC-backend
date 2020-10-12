@@ -7,20 +7,27 @@ const News = require('../model/news');
 
 const axios = require('axios');
 const apiClient = axios.create();
+const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 
 router.post('/scrap', async (req, res, next) => {
-    apiClient.interceptors.request.use(config => {
-        config.headers['Content-Type'] = 'application/json; charset=UTF-8';
-        return config;
+    const iconv = new Iconv('UTF-8', 'ISO-8859-1');
+    apiClient.interceptors.response.use(function (response) {
+        if (response.headers['content-type'].includes('utf')) {
+            response.data = iconv.convert(response.data);
+        }
+        return response;
     }, function (error) {
-        // Do something with request error
+
         return Promise.reject(error);
     });
 
     const { url } = req.body;
-    const data = await apiClient.get(url);
+    const data = await apiClient.get(url, {
+        responseEncoding: 'latin1',
+
+    });
     const contentData = extractor(data.data, 'pt');
     res.status(200).json({
         content: contentData.text,
