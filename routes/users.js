@@ -16,7 +16,7 @@ router.post('/create', async (req, res) => {
     const { email, password } = req.body;
     try {
         const userCreated = await User.create({ userName: email, userPassword: password });
-        const token = jwt.sign({ userId: userCreated._id }, process.env.SECRET, {
+        const token = jwt.sign({ user: email }, process.env.SECRET, {
             expiresIn: 86400,
         });
         return res.status(200).send({
