@@ -20,7 +20,7 @@ const verifyJWT = (req, res, next) => {
                 err
             })
         }
-        req.userId = decoded.id;
+        // req.userId = decoded.id;
         next();
     });
 };
