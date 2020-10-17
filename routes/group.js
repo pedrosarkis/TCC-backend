@@ -53,7 +53,7 @@ router.get('/view', async (req, res) => {
             });
        if(!group) {
            return res.json({
-               success: false,
+               success: true,
                message: 'Usuário não está em nenhum grupo'
            })
        }
