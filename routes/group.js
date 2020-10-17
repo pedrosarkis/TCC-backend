@@ -12,7 +12,8 @@ router.post('/create', async (req, res) => {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy });
        // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
         res.status(200).json({
-            success: true
+            success: true,
+            group: groupDescription.id
         })
         
     } catch (error) {
