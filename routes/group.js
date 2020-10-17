@@ -61,6 +61,10 @@ router.get('/view', async (req, res) => {
             group: group._doc,
          });
     } catch (error) {
+        res.json({
+            success: false,
+            message: 'Houve um erro ao criar o grupo'
+        })
     }
 });
 
