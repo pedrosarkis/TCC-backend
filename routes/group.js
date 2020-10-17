@@ -46,7 +46,7 @@ router.post('accept', async (req, res) => {
 router.get('/view', async (req, res) => {
     const { user } =  req.query;
     try {
-        const group = await Group.find(
+        const group = await Group.findOne(
             {
                 $or: [{groupParticipantsAccepted: user }, {createdBy: user} ] 
             });
