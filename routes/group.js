@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const ObjectId = require('mongodb').ObjectID;
 
 const router = express.Router({ mergeParams: true});
 const Group = require('../model/group');
@@ -8,8 +9,9 @@ const { inviteParticipants } = require('../components/groupComponent');
 
 router.post('/create', async (req, res) => {
     const { groupDescription, groupName, groupParticipantsInvited, createdBy} = req.body;
+    const participantsToInvite = groupParticipantsInvited.split(',');
     try {
-        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: groupParticipantsInvited });
+        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited: participantsToInvite, createdBy, groupParticipantsPending: participantsToInvite });
        // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
         res.status(200).json({
             success: true,
@@ -32,15 +34,56 @@ router.delete('/deleteGroups', async (req, res) => {
     await Group.deleteMany({});
 })
 
-router.post('accept', async (req, res) => {
+router.post('/accept', async (req, res) => {
     const {groupId, user} = req.body;
+    const operations = [];
     
-    const group = await Group.update({
-        id: groupId},
-         {$pull:{groupParticipantsPending: user}},
-          {$push: {groupParticipantsAccepted: user}});
+    try {
+       operations.push(Group.updateOne({'_id': ObjectId(groupId)},
+            {$push: {groupParticipantsAccepted: user}}
+        ));
 
-    console.log('Continuar essa bosta dps');
+        operations.push(Group.updateOne({'_id': ObjectId(groupId)},
+            {$pull: {groupParticipantsPending: user}}
+        ));
+
+        await Promise.allSettled(operations);
+        res.json({
+            success: true,
+        })
+    
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error,
+        })
+    }
+});
+
+router.post('/reject', async (req, res) => {
+    const {groupId, user} = req.body;
+    const operations = [];
+    
+    try {
+       operations.push(Group.updateOne({'_id': ObjectId(groupId)},
+            {$push: {groupParticipantsRejected: user}}
+        ));
+
+        operations.push(Group.updateOne({'_id': ObjectId(groupId)},
+            {$pull: {groupParticipantsPending: user}}
+        ));
+
+        await Promise.allSettled(operations);
+        res.json({
+            success: true,
+        })
+    
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error,
+        })
+    }
 });
 
 
@@ -49,22 +92,25 @@ router.get('/view', async (req, res) => {
     try {
         const group = await Group.findOne(
             {
-                $or: [{groupParticipantsAccepted: user }, {createdBy: user} ] 
+                $or: [{groupParticipantsAccepted: user }, {createdBy: user}, {groupParticipantsPending: user} ] 
             });
+
        if(!group) {
            return res.json({
                success: true,
                message: 'Usuário não está em nenhum grupo'
            })
        }
+       const isMember = (group._doc.groupParticipantsAccepted && group._doc.groupParticipantsAccepted.includes(user)) || group._doc.createdBy === user;
         res.json({
             success: true,
             group: group._doc,
+            isMember,
          });
     } catch (error) {
         res.json({
             success: false,
-            message: 'Houve um erro ao criar o grupo'
+            message: 'Houve um erro ao obter o grupo'
         })
     }
 });
