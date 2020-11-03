@@ -54,6 +54,8 @@ router.post('/create', authChecker, async (req, res) => {
         });
 
     } catch (error) {
+        log.error('Erro ao criar a news');
+        log.error(error);
         res.json({
             success: false,
             error,
