@@ -47,7 +47,7 @@ router.post('/create', authChecker, async (req, res) => {
     try {
         let veredict = await pup(content);
         veredict = veredict === 'FAKE' ? false : true;
-        News.create({ verifiedBy, content, url, isFakeNews: !veredict });
+        await News.create({ verifiedBy, content, url, isFakeNews: !veredict });
         res.json({
             veredict,
             success: true,
