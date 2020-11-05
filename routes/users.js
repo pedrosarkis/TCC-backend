@@ -54,11 +54,21 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/history', authChecker, async (req, res) => {
-    const params = req.params;
-    let news = await News.find({ verifiedBy: params.username });
-    news = news.map(item => item.toObject());
-    res.json({ news });
+router.get('/history', async (req, res) => {
+    const { user } = req.query;
+    try {
+        const news = await News.find({ verifiedBy: user }).lean();
+
+        res.json({
+            success: true,
+            news,
+         });
+    } catch (error) {
+        res.json({
+            success: false,
+            error
+        })
+    }
 });
 
 router.delete('/clean', authChecker, async (req, res) => {
