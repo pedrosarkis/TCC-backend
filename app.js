@@ -8,6 +8,7 @@ const bodyparser = require('body-parser');
 const userRoute = require('./routes/users');
 const newsRoute = require('./routes/news');
 const groupRoute = require('./routes/group');
+const reportRoute = require('./routes/report');
 const database = require('./database/connection');
 const cookieParser = require('cookie-parser');
 app.use(cors());
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use('/user', userRoute);
 app.use('/news', newsRoute);
 app.use('/group', groupRoute);
+app.use('/report', reportRoute);
 database.connectDabatase();
 
 const port = process.env.PORT || 8080;
