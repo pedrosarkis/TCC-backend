@@ -86,6 +86,43 @@ router.delete('/clean', authChecker, async (req, res) => {
     }
 });
 
+router.post('/changePassword', async (req, res) => {
+    const {oldPassword, newPassword, email} = req.body;
+    const user = await User.findOne({userName: email}).lean();
+    const isCorretPassword = await bcrypt.compare(oldPassword, user.userPassword)
+    if(!isCorretPassword) {
+        return res.json({
+            success: false,
+            error: 'A senha antiga informada está incorreta'
+        })
+    }
+    const isSamePassword = await bcrypt.compare(newPassword, user.userPassword);
+
+    if(isSamePassword) {
+        return res.json({
+            success: false,
+            error: 'Sua senha nova não pode ser igual a atual'
+        })
+    }
+
+    const newPasswordHash = await bcrypt.hash(newPassword, 10); 
+    const dataToUpdate  = {
+        userPassword: newPasswordHash
+    }
+    try {
+        await User.findOneAndUpdate({userName: email}, dataToUpdate, {
+            new: true
+        })
+        res.json({
+            success: true,
+            message: 'A senha foi alterada com sucesso'
+        })
+        
+    } catch (error) {
+        
+    }
+})
+
 router.post('/recover', async (req, res) => {
     const { email } = req.body;
     const passwordParams = {
