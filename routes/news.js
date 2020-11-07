@@ -38,7 +38,10 @@ router.post('/scrap', cors(), async (req, res, next) => {
         });
 
     } catch (error) {
-        console.log(error);
+        return res.json({
+            success: false,
+            message: 'Houve um erro ao coletar a notícia'
+        })
     }
 });
 
