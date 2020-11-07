@@ -7,6 +7,7 @@ const cors = require('cors');
 const bodyparser = require('body-parser');
 const userRoute = require('./routes/users');
 const newsRoute = require('./routes/news');
+const suggestionRoute = require('./routes/suggestion');
 const groupRoute = require('./routes/group');
 const reportRoute = require('./routes/report');
 const database = require('./database/connection');
@@ -26,6 +27,7 @@ app.use(cookieParser());
 
 app.use('/user', userRoute);
 app.use('/news', newsRoute);
+app.use('/suggestion', suggestionRoute);
 app.use('/group', groupRoute);
 app.use('/report', reportRoute);
 database.connectDabatase();
