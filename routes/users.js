@@ -72,11 +72,10 @@ router.get('/history', async (req, res) => {
 });
 
 router.delete('/clean', authChecker, async (req, res) => {
-    const { userName } = req.body;
-    const token = req.header.authorization;
+    const { user } = req.body;
     
     try {
-        await News.deleteMany({ verifiedBy: userName });
+        await News.deleteMany({ verifiedBy: user });
         res.json({ success: true });
     } catch (error) {
         res.json({
