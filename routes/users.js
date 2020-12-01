@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.delete('deleteAccount', async (req, res) => {
+router.delete('/deleteAccount', async (req, res) => {
     const { user } = req.body;
     const operations = [News.deleteMany({verifiedBy: user}), User.deleteOne({userName: user})];
     try {
