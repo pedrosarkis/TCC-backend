@@ -71,7 +71,7 @@ router.get('/history', async (req, res) => {
     }
 });
 
-router.post('/clean', async (req, res) => {
+router.delete('/clean', async (req, res) => {
     const { user } = req.body;
     
     try {
