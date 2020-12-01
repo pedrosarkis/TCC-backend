@@ -29,6 +29,28 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.delete('deleteAccount', async (req, res) => {
+    const { user } = req.body;
+    const operations = [News.deleteMany({verifiedBy: user}), User.deleteOne({userName: user})];
+    try {
+        await Promise.allSettled(operations);
+        return res.json({
+            success: true,
+            message: 'Deletado com sucesso'
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            success: false,
+            message: 'Erro ao deletar'
+        })
+
+    }
+    
+    
+
+})
+
 router.post('/login', async (req, res) => {
     const { userName, userPassword } = req.body;
     
