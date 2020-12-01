@@ -52,7 +52,7 @@ router.post('/create', authChecker, async (req, res) => {
         //veredict = veredict === 'FAKE' ? false : true;
         await News.create({ verifiedBy, content, url, isFakeNews: false });
         res.json({
-            veredict,
+            veredict: false,
             success: true,
         });
 
