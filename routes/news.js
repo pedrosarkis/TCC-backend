@@ -62,6 +62,7 @@ router.post('/create', authChecker, async (req, res) => {
             error,
         });
     }
+    console.log(error);
 });
 
 module.exports = router;
