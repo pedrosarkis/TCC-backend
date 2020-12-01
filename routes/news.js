@@ -48,9 +48,9 @@ router.post('/scrap', cors(), async (req, res, next) => {
 router.post('/create', authChecker, async (req, res) => {
     const { content , url, verifiedBy } = req.body;
     try {
-        let veredict = await pup(content);
-        veredict = veredict === 'FAKE' ? false : true;
-        await News.create({ verifiedBy, content, url, isFakeNews: !veredict });
+       // let veredict = await pup(content);
+        //veredict = veredict === 'FAKE' ? false : true;
+        await News.create({ verifiedBy, content, url, isFakeNews: false });
         res.json({
             veredict,
             success: true,
