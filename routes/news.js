@@ -57,11 +57,12 @@ router.post('/create', authChecker, async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error);
         res.json({
             success: false,
             error,
         });
-        console.log(error);
+        
     }
     
 });
