@@ -34,6 +34,24 @@ router.delete('/deleteGroups', async (req, res) => {
     await Group.deleteMany({});
 })
 
+router.delete('/delete', async (req, res) => {
+    const {groupId} = req.body;
+    try {
+        await Group.deleteOne({'_id': ObjectId(groupId)});
+        return res.json({
+            success: true,
+            message: 'Grupo excluído com sucesso'
+        })
+    } catch (error) {
+        return res.json({
+            success: false,
+            error,
+        })
+    }    
+})
+
+
+
 router.post('/accept', async (req, res) => {
     const {groupId, user} = req.body;
     const operations = [];
@@ -85,6 +103,31 @@ router.post('/reject', async (req, res) => {
         })
     }
 });
+
+router.post('/leaveGroup', (req, res) => {
+    const {groupId, user} = req.body;
+    
+    try {
+        await  Group.updateOne({'_id': ObjectId(groupId)}, 
+        {$pull: {groupParticipantsAccepted: user}});
+
+        return res.json({
+            success:true,
+            message: 'Você saiu do grupo'
+
+        })
+    
+    } catch (error) {
+        return res.json({
+            success: false,
+            message:'Erro ao sair do grupo',
+            error,
+        })
+    }
+    
+
+});
+        
 
 
 router.get('/view', async (req, res) => {
