@@ -104,7 +104,7 @@ router.post('/reject', async (req, res) => {
     }
 });
 
-router.post('/leaveGroup', (req, res) => {
+router.post('/leaveGroup', async (req, res) => {
     const {groupId, user} = req.body;
     
     try {
