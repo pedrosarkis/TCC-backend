@@ -9,9 +9,9 @@ const { inviteParticipants } = require('../components/groupComponent');
 
 router.post('/create', async (req, res) => {
     const { groupDescription, groupName, groupParticipantsInvited, createdBy} = req.body;
-    const participantsToInvite = groupParticipantsInvited.split(',');
+    
     try {
-        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited: participantsToInvite, createdBy, groupParticipantsPending: participantsToInvite });
+        const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: participantsToInvite });
        // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
         res.status(200).json({
             success: true,
