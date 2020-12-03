@@ -19,6 +19,7 @@ router.post('/create', async (req, res) => {
         })
         
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error });
     }
 });
@@ -49,8 +50,6 @@ router.delete('/delete', async (req, res) => {
         })
     }    
 })
-
-
 
 router.post('/accept', async (req, res) => {
     const {groupId, user} = req.body;
@@ -123,12 +122,9 @@ router.post('/leaveGroup', async (req, res) => {
             message:'Erro ao sair do grupo',
             error,
         })
-    }
-    
+    }   
 
 });
-        
-
 
 router.get('/view', async (req, res) => {
     const { user } =  req.query;
