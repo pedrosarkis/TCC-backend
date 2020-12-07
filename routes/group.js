@@ -32,7 +32,12 @@ router.get('/group/pending'), async (req, res) => {
 }
 
 router.delete('/deleteGroups', async (req, res) => {
-    await Group.deleteMany({});
+    try {
+        await Group.deleteMany({});
+    } catch (error) {
+        console.log(error);
+    }
+    
 })
 
 router.delete('/delete', async (req, res) => {
