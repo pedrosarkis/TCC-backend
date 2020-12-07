@@ -53,7 +53,7 @@ router.delete('/delete', async (req, res) => {
 
 router.post('/accept', async (req, res) => {
     const {groupId, user} = req.body;
-    const operations = [];
+    const operations = [''];
     
     try {
        operations.push(Group.updateOne({'_id': ObjectId(groupId)},
