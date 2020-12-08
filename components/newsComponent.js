@@ -10,7 +10,7 @@ const handleNotification = async (user, content, url) => {
                 $or: [{groupParticipantsAccepted: user }, {createdBy: user} ] 
             }).lean();
         if(!group) return;
-        const participantsToNotify = [...group.groupParticipantsAccepted, ...group.createdBy].filter(emailUser => user !== emailUser);
+        const participantsToNotify = group.groupParticipantsAccepted.concat(group.createdBy).filter(emailUser => user !== emailUser);
         sendNotification(participantsToNotify, content, url);
     } catch (error) {
         console.log(error);

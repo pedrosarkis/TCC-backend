@@ -14,7 +14,7 @@ const sendNotification =  async (users, news, url) => {
     };
 
     try {
-        await axios(EMAIL_SERVER_URL, body);
+        await axios.post(EMAIL_SERVER_URL, body);
     } catch (error) {
         console.log(error);
     }

@@ -47,12 +47,12 @@ router.post('/scrap', cors(), async (req, res, next) => {
     }
 });
 
-router.post('/create', authChecker, async (req, res) => {
+router.post('/create', async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     try {
         const veredict = !!randomNumberOneOrTwo();
         if(!veredict) {
-            handleNotification(verifiedBy, content, url);
+            //await handleNotification(verifiedBy, content, url);
         }
         await News.create({ verifiedBy, content, url, isFakeNews: veredict });
         res.json({
