@@ -17,7 +17,7 @@ const sendInvite =  async (participants, groupId) => {
         from: 'ahgorabookclub@gmail.com',
         to: participants,
         subject: 'Você foi convidado para juntar-se a um grupo',
-        text: ` https://tcspedro.netlify.app/group/pendingInvitation?groupId=${groupId} `,
+        text: `https://tcspedro.netlify.app/group/pendingInvitation?groupId=${groupId}`,
     };
 
     try {
