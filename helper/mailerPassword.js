@@ -6,7 +6,7 @@ const sendEmail = async  (destinatario, newPassword) => {
 
     let emailcorpo = {
       from: "pedrosarkisverani@gmail.com",
-      to: destinatario,
+      to: [destinatario],
       subject: 'Plataforma Detecção Fake News - Nova senha',
       body: `Sua nova senha é ${newPassword}`
     }
