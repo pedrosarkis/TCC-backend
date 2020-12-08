@@ -4,6 +4,6 @@ const EMAIL_SERVER_URL  = `https://o4xjvb0dzd.execute-api.us-east-1.amazonaws.co
 const NEWS_CATEGORIZER_URL = 'URL';
 
 module.exports = {
-    EMAILSERVER,
-    NEWSCATEGORIZER
+    EMAIL_SERVER_URL,
+    NEWS_CATEGORIZER_URL
 };
