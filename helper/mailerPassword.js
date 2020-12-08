@@ -16,8 +16,6 @@ const sendEmail = async  (destinatario, newPassword) => {
     } catch (error) {
       console.log(error);
     }
-    
-    
 };
 
 exports.sendEmail = sendEmail;

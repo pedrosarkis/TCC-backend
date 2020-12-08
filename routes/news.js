@@ -5,10 +5,12 @@ const { pup } = require('../helper/pupFinder');
 const cors = require('cors');
 
 const News = require('../model/news');
+const { randomNumberOneOrTwo } = require('../helper/constants');
 
 const axios = require('axios');
 
 const Iconv = require('iconv').Iconv;
+const { handleNotification } = require('../components/newsComponent');
 const extractor = require('unfluff');
 const authChecker = require('../middleware/authChecker');
 const iconv = new Iconv('UTF-8', 'ISO-8859-1');
@@ -46,11 +48,13 @@ router.post('/scrap', cors(), async (req, res, next) => {
 });
 
 router.post('/create', authChecker, async (req, res) => {
-    const { content , url, verifiedBy } = req.body;
+    const { content , url = '', verifiedBy } = req.body;
     try {
-       // let veredict = await pup(content);
-        //veredict = veredict === 'FAKE' ? false : true;
-        await News.create({ verifiedBy, content, url, isFakeNews: false });
+        const veredict = !!randomNumberOneOrTwo();
+        if(!veredict) {
+            handleNotification(verifiedBy, content, url);
+        }
+        await News.create({ verifiedBy, content, url, isFakeNews: veredict });
         res.json({
             veredict: false,
             success: true,

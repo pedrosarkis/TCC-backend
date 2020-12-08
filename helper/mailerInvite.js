@@ -1,28 +1,19 @@
 
 'use strict';
-const nodemailer = require('nodemailer');
+const { EMAIL_SERVER_URL } = require('../helper/constants');
+const axios = require('axios');
 
 const sendInvite =  async (participants, groupId) => {
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port : 587,
-        secure : false,
-        auth : {
-            user : 'ahgorabookclub@gmail.com',
-            pass : process.env.PASSWORD,
-        },
-    });
 
-    const emailcorpo = {
-        from: 'ahgorabookclub@gmail.com',
+    const body = {
+        from: 'pedrosarkisverani@gmail.com',
         to: participants,
         subject: 'Você foi convidado para juntar-se a um grupo',
-        text: `https://tcspedro.netlify.app/group/pendingInvitation?groupId=${groupId}`,
+        body: `Acesse e veja o seu convite em: https://tcspedro.netlify.app/group/`,
     };
 
     try {
-        const emailSent =  await transporter.sendMail(emailcorpo);
-        return emailSent;
+        await axios(EMAIL_SERVER_URL, body);
     } catch (error) {
         console.log(error);
     }
