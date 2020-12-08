@@ -1,30 +1,23 @@
-const nodemailer = require('nodemailer');
+const { EMAIL_SERVER_URL } = require('../helper/constants');
+const axios = require('axios');
 
 const sendEmail = async  (destinatario, newPassword) => {
 
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port : 587,
-    secure : false,
-  auth : {
-    user : 'ahgorabookclub@gmail.com',
-    pass : process.env.PASSWORD
-  }
-});
 
     let emailcorpo = {
-      from: "ahgorabookclub@gmail.com",
+      from: "pedrosarkisverani@gmail.com",
       to: destinatario,
-      subject: 'Nova senha',
-      text: `Sua nova senha é ${newPassword}`
+      subject: 'Plataforma Detecção Fake News - Nova senha',
+      body: `Sua nova senha é ${newPassword}`
     }
-    
+
     try {
-      const emailSent =  await transporter.sendMail(emailcorpo);
-      return emailSent;
+      await axios.post(EMAIL_SERVER_URL, emailcorpo);
     } catch (error) {
       console.log(error);
     }
+    
+    
 };
 
 exports.sendEmail = sendEmail;
