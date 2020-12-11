@@ -5,11 +5,11 @@ const ObjectId = require('mongodb').ObjectID;
 const router = express.Router({ mergeParams: true});
 const Group = require('../model/group');
 const authChecker = require('../middleware/authChecker');
-const { inviteParticipants } = require('../components/groupComponent');
+const { handleInvitation } = require('../components/groupComponent');
 
 router.post('/create', async (req, res) => {
     const { groupDescription, groupName, groupParticipantsInvited, createdBy} = req.body;
-    
+    //const participantsToInvite  = await handleInvitation(groupParticipantsInvited);
     try {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: groupParticipantsInvited });
        // await inviteParticipants(groupParticipantsInvited, groupCreated.id);

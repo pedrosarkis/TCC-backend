@@ -17,7 +17,6 @@ const handleNotification = async (user, content, url) => {
     }
 }
 
-
 module.exports = {
     handleNotification
 }
