@@ -32,7 +32,7 @@ const deleteGroupById = async (req, res) => {
     }    
 }
 
-const acceptGroupInvitation = async  () => {
+const acceptGroupInvitation = async  (req, res) => {
     const {groupId, user} = req.body;
     const operations = [''];
     
