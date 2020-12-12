@@ -12,13 +12,14 @@ const bcrypt = require('bcrypt');
 const createUser = async (req, res) => {
     const { email, password } = req.body;
     try {
-        const userCreated = await User.create({ userName: email, userPassword: password });
+        await User.create({ userName: email, userPassword: password });
         const token = jwt.sign({ user: email }, process.env.SECRET, {
             expiresIn: 86400,
         });
         return res.status(200).send({
             auth: true,
             token,
+            user: email
         });
     } catch (error) {
         console.log(error);
