@@ -47,6 +47,21 @@ router.post('/scrap', cors(), async (req, res, next) => {
     }
 });
 
+router.get('getAll', async (req, res) => {
+    try {
+        const news = await News.find({}).lean();
+        res.json({
+            news,
+            success: true
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false
+        })
+    }
+})
+
 router.post('/create', async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     try {
@@ -66,7 +81,6 @@ router.post('/create', async (req, res) => {
             success: false,
             error,
         });
-        
     }
     
 });
