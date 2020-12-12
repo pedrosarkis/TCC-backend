@@ -47,7 +47,7 @@ router.post('/scrap', cors(), async (req, res, next) => {
     }
 });
 
-router.get('getAll', async (req, res) => {
+router.get('/getAll', async (req, res) => {
     try {
         const news = await News.find({}).lean();
         res.json({
