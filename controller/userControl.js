@@ -2,6 +2,7 @@
 
 const User = require('../model/user');
 const News = require('../model/news');
+const Group = require('../model/group');
 const generatePassword = require('generate-password');
 const mailerNewPassword = require('../helper/mailerPassword');
 require('dotenv-safe').config();
@@ -68,6 +69,21 @@ const doLogin = async (req, res) => {
             error: 'A senha está incorreta',
        });
     }
+}
+
+const deleteAllUser = async (req, res) => {
+    const operation = [Group.deleteMany({}), User.deleteMany({})];
+    try {
+        await Promise.allSettled(operation);
+        res.json({
+            message: 'Deletado com sucesso'
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            message: 'Erro ao deletar'
+        })
+    } 
 }
 
 const getUserHistory = async (req, res) => {
@@ -177,5 +193,6 @@ module.exports = {
     getUserHistory,
     deleteAllUserHistory,
     changeUserPassword,
-    sendNewPasswordToUser
+    sendNewPasswordToUser,
+    deleteAllUser
 }
