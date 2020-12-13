@@ -18,6 +18,6 @@ router.post('/changePassword', userController.changeUserPassword);
 
 router.post('/recover', userController.sendNewPasswordToUser);
 
-router.detele('/deleteAll', userController.deleteAllUser);
+router.detele('/deleteall', userController.deleteAllUser);
 
 module.exports = router;
