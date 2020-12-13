@@ -58,9 +58,10 @@ const getAllNews = async (req, res) => {
 const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     try {
-        const veredict = axios.post(NEWS_CATEGORIZER_URL_PT, {
+        let veredict = await axios.post(NEWS_CATEGORIZER_URL_PT, {
             content,
         })
+        veredict = veredict.prediction > 0.5 ? true : false
         if(!veredict) {
             //await handleNotification(verifiedBy, content, url);
         }
