@@ -10,7 +10,6 @@ const randomNumberOneOrTwo = () => {
 
 module.exports = {
     EMAIL_SERVER_URL,
-    NEWS_CATEGORIZER_URL,
     NEWS_CATEGORIZER_URL_PT,
     NEWS_CATEGORIZER_URL_EN
 };
