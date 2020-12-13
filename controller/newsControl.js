@@ -1,7 +1,7 @@
 'use strict'
 
 const News = require('../model/news');
-const { randomNumberOneOrTwo } = require('../helper/constants');
+const {NEWS_CATEGORIZER_URL_PT, NEWS_CATEGORIZER_URL_EN} = require('../helper/constants');
 const axios = require('axios');
 const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
@@ -58,7 +58,9 @@ const getAllNews = async (req, res) => {
 const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     try {
-        const veredict = !!randomNumberOneOrTwo();
+        const veredict = axios.post(NEWS_CATEGORIZER_URL_PT, {
+            content,
+        })
         if(!veredict) {
             //await handleNotification(verifiedBy, content, url);
         }
