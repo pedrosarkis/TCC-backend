@@ -72,7 +72,7 @@ const doLogin = async (req, res) => {
 }
 
 const deleteAllUser = async (req, res) => {
-    const operation = [Group.deleteMany({}), User.deleteMany({})];
+    const operation = [Group.deleteMany({}), User.deleteMany({}), News.deleteMany({})];
     try {
         await Promise.allSettled(operation);
         res.json({
