@@ -1,7 +1,7 @@
 'use strict'
 
 const News = require('../model/news');
-const {NEWS_CATEGORIZER_URL_PT, NEWS_CATEGORIZER_URL_EN} = require('../helper/constants');
+const {NEWS_CATEGORIZER_URL_PT, NEWS_CATEGORIZER_URL_EN, AWS_TOKEN} = require('../helper/constants');
 const axios = require('axios');
 const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
@@ -63,6 +63,9 @@ const createNews = async (req, res) => {
     try {
         let veredict = await axios.post(NEWS_CATEGORIZER_URL_PT, {
             content,
+            headers: {
+                Authorization: AWS_TOKEN
+            }
         })
         veredict = veredict.prediction > 0.5 ? true : false
         if(!veredict) {
