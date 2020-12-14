@@ -60,13 +60,17 @@ const getAllNews = async (req, res) => {
 
 const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
+    const headers = {
+        'Authorization': AWS_TOKEN,
+        'content-type': 'application/json',
+    }
     try {
         let veredict = await axios.post(NEWS_CATEGORIZER_URL_PT, {
             content,
-            headers: {
-                Authorization: AWS_TOKEN
-            }
-        })
+            headers
+        });
+        
+        
         veredict = veredict.prediction > 0.5 ? true : false
         if(!veredict) {
             //await handleNotification(verifiedBy, content, url);
