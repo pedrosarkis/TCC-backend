@@ -68,6 +68,7 @@ const createNews = async (req, res) => {
             'authorization': AWS_TOKEN
         }
         });
+        const propability = veredict;
         
         veredict = veredict.prediction > 0.5 ? true : false
         if(!veredict) {
@@ -77,6 +78,7 @@ const createNews = async (req, res) => {
         res.json({
             veredict: false,
             success: true,
+            propability
         });
 
     } catch (error) {
