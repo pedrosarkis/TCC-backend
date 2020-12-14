@@ -7,6 +7,9 @@ const Iconv = require('iconv').Iconv;
 const extractor = require('unfluff');
 const iconv = new Iconv('UTF-8', 'ISO-8859-1');
 const { handleNotification } = require('../components/newsComponent');
+const lgDetect = require('languagedetect');
+const languageDetector = new lgDetect();
+
 
 const scrapContent = async (req, res) => {
     const apiClient = axios.create();
