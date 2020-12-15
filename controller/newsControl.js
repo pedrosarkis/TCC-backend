@@ -62,7 +62,7 @@ const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     
     try {
-        let checkNews = await axios.post('https://httpbin.org/post', {content}, {
+        let checkNews = await axios.post(NEWS_CATEGORIZER_URL_PT, {content}, {
             headers: {
             'content-type': 'application/json',
             'authorization': AWS_TOKEN
