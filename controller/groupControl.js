@@ -140,7 +140,7 @@ const createGroup = async (req, res) => {
     const participantsToInvite  = await handleInvitation(groupParticipantsInvited);
     try {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: groupParticipantsInvited });
-        await inviteParticipants(participantsToInvite, groupCreated.id);
+        await sendInvite(participantsToInvite, groupCreated.id);
         res.status(200).json({
             success: true,
             group: groupCreated.id
