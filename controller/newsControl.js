@@ -78,7 +78,7 @@ const createNews = async (req, res) => {
         }
         await News.create({ verifiedBy, content, url, isFakeNews: veredict });
         res.json({
-            veredict: false,
+            veredict,
             success: true,
             propability
         });
