@@ -68,7 +68,9 @@ const createNews = async (req, res) => {
             'authorization': AWS_TOKEN
         }
         });
+        console.log(checkNews);
         const propability = checkNews.prediction;
+        console.log(propability);
         
         let veredict = checkNews.prediction > 0.5 ? true : false
         if(!veredict) {
