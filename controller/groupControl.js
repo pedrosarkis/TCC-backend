@@ -4,6 +4,7 @@ const Group = require('../model/group');
 const ObjectId = require('mongodb').ObjectID;
 const authChecker = require('../middleware/authChecker');
 const { handleInvitation } = require('../components/groupComponent');
+const { sendInvite } = require('../helper/mailerInvite');
 
 
 const deleteAll = async (req, res) => {
@@ -139,7 +140,7 @@ const createGroup = async (req, res) => {
     const participantsToInvite  = await handleInvitation(groupParticipantsInvited);
     try {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: groupParticipantsInvited });
-       // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
+        await inviteParticipants(participantsToInvite, groupCreated.id);
         res.status(200).json({
             success: true,
             group: groupCreated.id

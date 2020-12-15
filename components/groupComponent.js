@@ -1,6 +1,5 @@
 'use strict';
 const users = require('../model/user');
-const { sendInvite } = require('../helper/mailerInvite');
 const Group = require('../model/group');
 
 const handleInvitation = async (participants) => {
