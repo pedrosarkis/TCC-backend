@@ -82,7 +82,7 @@ const createNews = async (req, res) => {
         
         let veredict = propability > 0.5 ? true : false
         if(!veredict) {
-            //await handleNotification(verifiedBy, content, url);
+            await handleNotification(verifiedBy, content, url);
         }
         await News.create({ verifiedBy, content, url, isFakeNews: veredict });
         res.json({
