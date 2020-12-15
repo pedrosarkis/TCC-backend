@@ -9,6 +9,7 @@ const iconv = new Iconv('UTF-8', 'ISO-8859-1');
 const { handleNotification } = require('../components/newsComponent');
 const lgDetect = require('languagedetect');
 const languageDetector = new lgDetect();
+const cheerio = require('cheerio');
 
 
 const scrapContent = async (req, res) => {
@@ -29,8 +30,11 @@ const scrapContent = async (req, res) => {
         const data = await apiClient.get(url, {
             responseEncoding: 'latin1',
         });
-
-        const contentData = extractor(data.data, 'pt');
+       
+        const languageDetected = languageDetector.detect(url, 2);
+        const hasFoundPortuguese = languageDetected.some((languages,index) => languages[index] === 'portuguese' ||  languages[index] === 'spanish' );
+        const languageToExtract = hasFoundPortuguese ? 'pt' : 'en';
+        const contentData = extractor(data.data, languageToExtract);
         res.status(200).json({
             content: contentData.text,
         });
@@ -60,9 +64,13 @@ const getAllNews = async (req, res) => {
 
 const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
+
+    const languageDetected = languageDetector.detect(content, 2);
+    const hasFoundPortuguese = languageDetected.some((languages,index) => languages[index] === 'portuguese' ||  languages[index] === 'spanish' );
+    const urlToCheckNews = hasFoundPortuguese ? NEWS_CATEGORIZER_URL_PT : NEWS_CATEGORIZER_URL_EN;
     
     try {
-        let checkNews = await axios.post(NEWS_CATEGORIZER_URL_PT, {content}, {
+        let checkNews = await axios.post(urlToCheckNews, {content}, {
             headers: {
             'content-type': 'application/json',
             'authorization': AWS_TOKEN
