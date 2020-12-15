@@ -18,7 +18,7 @@ const handleInvitation = async (participants) => {
         }
     }).filter(userToInvite => {
         return userToInvite.status == null;
-    })
+    }).map(onlyMail => onlyMail.user);
 
     return participantsToInvite;
 };
