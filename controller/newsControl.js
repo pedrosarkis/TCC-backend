@@ -62,15 +62,15 @@ const createNews = async (req, res) => {
     const { content , url = '', verifiedBy } = req.body;
     
     try {
-        let veredict = await axios.post('https://httpbin.org/post', {content}, {
+        let checkNews = await axios.post('https://httpbin.org/post', {content}, {
             headers: {
             'content-type': 'application/json',
             'authorization': AWS_TOKEN
         }
         });
-        const propability = veredict;
+        const propability = checkNews.prediction;
         
-        veredict = veredict.prediction > 0.5 ? true : false
+        let veredict = checkNews.prediction > 0.5 ? true : false
         if(!veredict) {
             //await handleNotification(verifiedBy, content, url);
         }
