@@ -10,7 +10,7 @@ const sendNotification =  async (users, news, url) => {
         to: users,
         subject: 'Um de seus colegas de grupo encontrou uma notícia falsa',
         body: `A notícia com o conteúdo abaixo foi pesquisada em nossa plataforma, e nosso algoritmo encontrou uma grande
-        probabilidade dela ser falsa: ${news}`,
+        probabilidade dela ser falsa: <br>  ${news} <br> Pesquisado por URL: ${url ? url : 'não'}`,
     };
 
     try {

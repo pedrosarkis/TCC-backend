@@ -178,7 +178,6 @@ const sendNewPasswordToUser = async (req, res) => {
         } else {
             res.status(500).json({
                 success: false,
-                error,
             })
         }
     } catch (error) {
