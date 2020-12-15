@@ -136,7 +136,7 @@ const getUserGroup = async (req, res) => {
 
 const createGroup = async (req, res) => {
     const { groupDescription, groupName, groupParticipantsInvited, createdBy} = req.body;
-    //const participantsToInvite  = await handleInvitation(groupParticipantsInvited);
+    const participantsToInvite  = await handleInvitation(groupParticipantsInvited);
     try {
         const groupCreated = await Group.create({ groupDescription, groupName, groupParticipantsInvited, createdBy, groupParticipantsPending: groupParticipantsInvited });
        // await inviteParticipants(groupParticipantsInvited, groupCreated.id);
