@@ -84,7 +84,7 @@ const createNews = async (req, res) => {
         if(!veredict) {
             await handleNotification(verifiedBy, content, url);
         }
-        await News.create({ verifiedBy, content, url, isFakeNews: veredict });
+        await News.create({ verifiedBy, content, url, isFakeNews: !veredict });
         res.json({
             veredict,
             success: true,
