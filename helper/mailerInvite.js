@@ -9,7 +9,7 @@ const sendInvite =  async (participants, groupId) => {
         from: 'pedrosarkisverani@gmail.com',
         to: participants,
         subject: 'Você foi convidado para juntar-se a um grupo',
-        body: `Acesse e veja o seu convite em: https://tcspedro.netlify.app/group/`,
+        body: `Acesse e veja o seu convite em: https://tcspedro.netlify.app/groups`,
     };
 
     try {
