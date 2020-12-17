@@ -32,7 +32,7 @@ const scrapContent = async (req, res) => {
         });
        
         const languageDetected = languageDetector.detect(url, 2);
-        const hasFoundPortuguese = languageDetected.some((languages,index) => languages[index] === 'portuguese' ||  languages[index] === 'spanish' );
+        const hasFoundPortuguese = languageDetected.some((languages,index) => languages[index] === 'portuguese' || languages[index] === 'spanish' );
         const languageToExtract = hasFoundPortuguese ? 'pt' : 'en';
         const contentData = extractor(data.data, languageToExtract);
         res.status(200).json({
